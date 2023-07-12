@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sentiment Analysis Tool</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 500px;
+            margin: 50px auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f0f0f0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            text-align: center;
+            font-style: italic;
+        }
+
+        #input-container {
+            display: flex;
+        }
+
+        #input {
+            flex: 1;
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #submit {
+            margin-left: 5px;
+            padding: 5px 10px;
+            border: none;
+            background-color: #90EE90; /* soothing meditative color */
+            color: white;
+            cursor: pointer;
+        }
+
+        #output {
+            margin-top: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .positive {
+            color: green;
+        }
+
+        .negative {
+            color: red;
+        }
+
+        .neutral {
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Sentiment Analysis Tool</h1>
+    <p>Enter a sentence and click the button to see its sentiment.</p>
+    <div id="input-container">
+        <input type="text" id="input" placeholder="Type your sentence...">
+        <button id="submit">Analyze</button>
+    </div>
+    <div id="output"></div>
+</div>
+
+<script>
+    const inputField = document.getElementById('input');
+    const submitButton = document.getElementById('submit');
+    const outputElement = document.getElementById('output');
+
+    // Process user input
+    function processInput() {
+        const userInput = inputField.value.trim();
+
+        // Check if the input is not empty
+        if (userInput) {
+            // Call your API or perform logic to get the sentiment analysis result
+            const sentimentResult = getSentimentResult(userInput);
+
+            // Display the result in the output element
+            outputElement.textContent = `The sentiment of "${userInput}" is ${sentimentResult}.`;
+            outputElement.classList.add(sentimentResult);
+
+            // Clear the input field after displaying the result
+            inputField.value = '';
+
+            // Focus on the input field for convenience
+            inputField.focus();
+
+            // Play a sound effect based on the result
+            playSound(sentimentResult);
+
+            // Reset the output element class after a slight delay
+            setTimeout(() => {
+                outputElement.classList.remove(sentimentResult);
+            }, 5000);
+
+        }
+    }
+
+    // Simulated sentiment analysis API or logic result
+    function getSentimentResult(sentence) {
+    // Add your logic here to generate an appropriate sentiment result based on the sentence
+
+        if (sentence.toLowerCase().includes('love') || sentence.toLowerCase().includes('happy') || sentence.toLowerCase().includes('great')) {
+            return 'positive';
+        } else if (sentence.toLowerCase().includes('hate') || sentence.toLowerCase().includes('sad') || sentence.toLowerCase().includes('terrible')) {
+            return 'negative';
+        } else {
+            return 'neutral';
+        }
+    }
+
+    // Play a sound effect based on the result
+    function playSound(result) {
+        // Choose a sound file based on the result
+        let soundFile;
+        if (result === 'positive') {
+            soundFile = 'https://freesound.org/data/previews/341/341695_5858296-lq.mp3';
+        } else if (result === 'negative') {
+            soundFile = 'https://freesound.org/data/previews/171/171671_2437358-lq.mp3';
+        } else {
+            soundFile = 'https://freesound.org/data/previews/257/257357_4486188-lq.mp3';
+        }
+
+        // Create an audio element and play the sound file
+        const audio = new Audio(soundFile);
+        audio.play();
+    }
+
+    // Add an event listener for the submit button
+    submitButton.addEventListener('click', processInput);
+
+</script>
+</body>
+</html>
